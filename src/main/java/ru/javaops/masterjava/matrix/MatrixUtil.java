@@ -62,7 +62,7 @@ public class MatrixUtil {
             for (int j = 0; j < matrixSize; j++) {
                 final int[] thatColumn = new int[matrixSize];
                 for (int k = 0; k < matrixSize; k++) {
-                    thatColumn[k] = matrixB[j][k];
+                    thatColumn[k] = matrixB[k][j];
                 }
                 for (int i = 0; i < matrixSize; i++) {
                     final int[] thisRow = matrixA[i];
