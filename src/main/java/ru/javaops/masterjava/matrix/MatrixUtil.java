@@ -161,7 +161,30 @@ public class MatrixUtil {
         return matrixC;
     }
 
-    // Optimized by https://habrahabr.ru/post/114797/
+    public static int[][] concurrentMultiply2(int[][] matrixA, int[][] matrixB, ExecutorService executor) throws InterruptedException {
+        final int matrixSize = matrixA.length;
+        final int[][] matrixC = new int[matrixSize][matrixSize];
+        final CountDownLatch latch = new CountDownLatch(matrixSize);
+
+        for (int row = 0; row < matrixSize; row++) {
+            final int[] rowA = matrixA[row];
+            final int[] rowC = matrixC[row];
+
+            executor.submit(() -> {
+                for (int idx = 0; idx < matrixSize; idx++) {
+                    final int elA = rowA[idx];
+                    final int[] rowB = matrixB[idx];
+                    for (int col = 0; col < matrixSize; col++) {
+                        rowC[col] += elA * rowB[col];
+                    }
+                }
+                latch.countDown();
+            });
+        }
+        latch.await();
+        return matrixC;
+    }
+
     public static int[][] singleThreadMultiplyOpt(int[][] matrixA, int[][] matrixB) {
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
