@@ -134,7 +134,7 @@ public class Payload {
         @XmlElement(name = "Project", namespace = "http://javaops.ru", required = true)
         protected List<Project> project;
 
-        public List<Project> getProjects() {
+        public List<Project> getProject() {
             if (project == null) {
                 project = new ArrayList<Project>();
             }
