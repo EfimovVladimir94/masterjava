@@ -30,7 +30,7 @@ public class Project {
         this.description = description;
     }
 
-    public List<Group> getGroup() {
+    public List<Project.Group> getGroup() {
         if (group == null) {
             group = new ArrayList<Project.Group>();
         }

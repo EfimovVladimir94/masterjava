@@ -69,12 +69,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Payload", namespace = "http://javaops.ru")
 public class Payload {
 
+    @XmlElement(name = "Projects", namespace = "http://javaops.ru", required = true)
+    protected Payload.Projects projects;
     @XmlElement(name = "Cities", namespace = "http://javaops.ru", required = true)
     protected Payload.Cities cities;
     @XmlElement(name = "Users", namespace = "http://javaops.ru", required = true)
     protected Payload.Users users;
-    @XmlElement(name = "projects", namespace = "http://javaops.ru", required = true)
-    protected Payload.Projects projects;
+
 
     public Payload.Projects getProjects() {
         return projects;
@@ -124,6 +125,22 @@ public class Payload {
         this.users = value;
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+            "project"
+    })
+    public static class Projects {
+
+        @XmlElement(name = "Project", namespace = "http://javaops.ru", required = true)
+        protected List<Project> project;
+
+        public List<Project> getProjects() {
+            if (project == null) {
+                project = new ArrayList<Project>();
+            }
+            return project;
+        }
+    }
 
     /**
      * <p>Java class for anonymous complex type.
@@ -180,7 +197,6 @@ public class Payload {
 
     }
 
-
     /**
      * <p>Java class for anonymous complex type.
      *
@@ -234,23 +250,6 @@ public class Payload {
             return this.user;
         }
 
-    }
-
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-            "project"
-    })
-    public static class Projects {
-
-        @XmlElement(name = "projects", required = true)
-        protected List<Project> project;
-
-        public List<Project> getProjects() {
-            if (project == null) {
-                project = new ArrayList<Project>();
-            }
-            return project;
-        }
     }
 
 }

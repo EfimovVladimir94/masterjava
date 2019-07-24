@@ -9,28 +9,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum GroupType {
 
-    @XmlEnumValue("registering")
-    REGISTERING("registering"),
-    @XmlEnumValue("current")
-    CURRENT("current"),
-    @XmlEnumValue("finished")
-    FINISHED("finished");
-    private final String value;
-
-    GroupType(String v) {
-        value = v;
-    }
+    REGISTERING,
+    CURRENT,
+    FINISHED;
 
     public String value() {
-        return value;
+        return name();
     }
 
     public static GroupType fromValue(String v) {
-        for (GroupType c : GroupType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
+     return valueOf(v);
     }
 }

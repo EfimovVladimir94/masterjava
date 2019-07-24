@@ -33,6 +33,7 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
+
     /**
      * Create an instance of {@link Payload }
      *
@@ -51,6 +52,16 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Project.Group }
+     *
+     */
+
+    public Project.Group createProjectGroup(){
+        return new Project.Group();
+    }
+
+
+    /**
      * Create an instance of {@link User }
      *
      */
@@ -58,6 +69,14 @@ public class ObjectFactory {
         return new User();
     }
 
+    /**
+     * Create an instance of {@link Payload.Projects }
+     *
+     */
+
+    public Payload.Projects createPayloadProjects(){
+        return new Payload.Projects();
+    }
     /**
      * Create an instance of {@link Payload.Cities }
      *
@@ -72,24 +91,6 @@ public class ObjectFactory {
      */
     public Payload.Users createPayloadUsers() {
         return new Payload.Users();
-    }
-
-    /**
-     * Create an instance of {@link Payload.Projects }
-     *
-     */
-
-    public Payload.Projects createPayloadProjects(){
-        return new Payload.Projects();
-    }
-
-    /**
-     * Create an instance of {@link Project.Group }
-     *
-     */
-
-    public Project.Group createProjectGroup(){
-        return new Project.Group();
     }
 
     /**

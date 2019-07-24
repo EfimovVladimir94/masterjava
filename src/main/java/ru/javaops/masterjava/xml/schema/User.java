@@ -37,8 +37,8 @@ public class User {
     protected String value;
     @XmlAttribute(name = "email")
     protected String email;
-    @XmlElement(namespace = "http://javaops.ru", required = true)
-    protected String fullName;
+//    @XmlElement(namespace = "http://javaops.ru", required = true)
+//    protected String fullName;
     @XmlAttribute(name = "flag", required = true)
     protected FlagType flag;
     @XmlAttribute(name = "city", required = true)
@@ -80,20 +80,20 @@ public class User {
         this.email = email;
     }
 
-    /**
-     * Gets the value of the fullName property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+//    /**
+//     * Gets the value of the fullName property.
+//     *
+//     * @return possible object is
+//     * {@link String }
+//     */
+//
+//    public String getFullName() {
+//        return fullName;
+//    }
+//
+//    public void setFullName(String fullName) {
+//        this.fullName = fullName;
+//    }
 
     public FlagType getFlag() {
         return flag;
