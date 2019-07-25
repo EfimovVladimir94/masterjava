@@ -9,7 +9,11 @@ import ru.javaops.masterjava.xml.schema.Project;
 import ru.javaops.masterjava.xml.schema.User;
 import ru.javaops.masterjava.xml.util.JaxbParser;
 import ru.javaops.masterjava.xml.util.Schemas;
+import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
+import ru.javaops.masterjava.xml.util.XsltProcessor;
 
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
 import java.io.Writer;
 import java.net.URL;
@@ -44,6 +48,12 @@ public class MainXML {
         try (Writer writer = Files.newBufferedWriter(Paths.get("out/users.html"))) {
             writer.write(html);
         }
+
+        System.out.println();
+        html = transform(projectName, payloadUrl);
+        try (Writer writer = Files.newBufferedWriter((Paths.get("out/groups.html")))) {
+            writer.write(html);
+        }
     }
 
     private static Set<User> parseByJaxb(String projectName, URL payloaudUrl) throws Exception {
@@ -61,6 +71,15 @@ public class MainXML {
         return StreamEx.of(payload.getUsers().getUser())
                 .filter(u -> !Collections.disjoint(groups, u.getGroupRefs()))
                 .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(User::getValue).thenComparing(User::getEmail))));
+    }
+
+    private static String transform(String projectName, URL payloadUrl) throws Exception {
+        URL xsl = Resources.getResource("groups.xsl");
+        try (InputStream xmlStream = payloadUrl.openStream(); InputStream xslStream = xsl.openStream()) {
+            XsltProcessor processor = new XsltProcessor(xslStream);
+            processor.setParametr("projectName", projectName);
+            return processor.transform(xmlStream);
+        }
     }
 
     private static String toHtml(Set<User> users, String projectName) {
