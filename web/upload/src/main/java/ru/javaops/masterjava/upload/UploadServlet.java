@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -29,24 +30,17 @@ public class UploadServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        final ServletFileUpload upload = new ServletFileUpload();
         final WebContext webContext = new WebContext(req, resp, req.getServletContext(), req.getLocale());
-        try {
-            final FileItemIterator itemIterator = upload.getItemIterator(req);
-            while (itemIterator.hasNext()) { //expect that it's only one file
-                FileItemStream fileItemStream = itemIterator.next();
-                if (!fileItemStream.isFormField()) {
-                    try (InputStream is = fileItemStream.openStream()) {
-                        List<User> users = userProcessor.process(is);
-                        webContext.setVariable("users", users);
-                        engine.process("result", webContext, resp.getWriter());
-                    }
-                    break;
-                }
-            }
+        Part part = req.getPart("fileToUpload");
+        if (part.getSize() == 0) {
+            throw new IllegalStateException("Upload file not been selected");
+        }
+        try (InputStream is = part.getInputStream()) {
+            List<User> users = userProcessor.process(is);
+            webContext.setVariable("users", users);
+            engine.process("users", webContext, resp.getWriter());
         } catch (Exception e) {
             webContext.setVariable("exception", e);
-            engine.process("exception", webContext, resp.getWriter());
         }
 
     }
