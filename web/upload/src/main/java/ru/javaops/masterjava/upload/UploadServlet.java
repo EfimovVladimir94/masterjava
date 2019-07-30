@@ -27,26 +27,26 @@ public class UploadServlet extends HttpServlet {
         engine.process("upload", webContext, resp.getWriter());
     }
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         final ServletFileUpload upload = new ServletFileUpload();
-        final WebContext webContext = new WebContext(req,resp,req.getServletContext(),req.getLocale());
+        final WebContext webContext = new WebContext(req, resp, req.getServletContext(), req.getLocale());
         try {
-
             final FileItemIterator itemIterator = upload.getItemIterator(req);
-            while (itemIterator.hasNext()){
+            while (itemIterator.hasNext()) { //expect that it's only one file
                 FileItemStream fileItemStream = itemIterator.next();
-                if(!fileItemStream.isFormField()){
-                    try(InputStream is = fileItemStream.openStream()) {
+                if (!fileItemStream.isFormField()) {
+                    try (InputStream is = fileItemStream.openStream()) {
                         List<User> users = userProcessor.process(is);
-                        webContext.setVariable("users",users);
-                        engine.process("result",webContext,resp.getWriter());
+                        webContext.setVariable("users", users);
+                        engine.process("result", webContext, resp.getWriter());
                     }
+                    break;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             webContext.setVariable("exception", e);
-            engine.process("exception",webContext,resp.getWriter());
+            engine.process("exception", webContext, resp.getWriter());
         }
 
     }
