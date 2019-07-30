@@ -7,26 +7,16 @@
     <parent>
         <groupId>ru.javaops</groupId>
         <artifactId>parent</artifactId>
-        <relativePath>../parent/pom.xml</relativePath>
+        <relativePath>../../parent/pom.xml</relativePath>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>parent-web</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>common-web</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Parent Web</name>
+    <name>Common Web</name>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-        </plugins>
+        <finalName>upload</finalName>
     </build>
 
     <dependencies>
@@ -37,15 +27,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>common-web</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.0.11.RELEASE</version>
         </dependency>
     </dependencies>
 
-    <profiles>
-    </profiles>
-
-    <dependencyManagement>
-    </dependencyManagement>
 </project>
