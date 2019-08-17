@@ -23,8 +23,6 @@ public class MailServiceClient {
                 new Attachment("version.html", new DataHandler(new File("config_templates/version.html").toURI().toURL())));
 
         MailService mailService = service.getPort(MailService.class);
-        mailService.sendToGroup(ImmutableSet.of(
-                new Addressee("trainingmailefimov@yandex.ru", null)), null, "Subject", "Body");
 
         String state = mailService.sendToGroup(ImmutableSet.of(new Addressee("trainingmailefimov@yandex.ru", null)), null,
                 "Group mail subject", "Group mail body", attachments);
