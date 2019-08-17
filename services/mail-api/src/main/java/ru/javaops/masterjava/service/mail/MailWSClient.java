@@ -9,6 +9,7 @@ import ru.javaops.masterjava.web.WebStateException;
 import ru.javaops.masterjava.web.WsClient;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.soap.MTOMFeature;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +38,10 @@ public class MailWSClient {
         GroupResult result = WS_CLIENT.getPort().sendBulk(to, subject, body, attachments);
         log.info("Sent bulk with result: " + result);
         return result;
+    }
+
+    public static MailService getPort() {
+        return WS_CLIENT.getPort(new MTOMFeature(1024));
     }
 
     public static Set<Addressee> split(String addressees) {

@@ -19,5 +19,5 @@ public class Attachment {
     protected String name;
 
     @XmlMimeType("application/octet-stream")
-    private DataHandler data;
+    private DataHandler dataHandler;
 }
