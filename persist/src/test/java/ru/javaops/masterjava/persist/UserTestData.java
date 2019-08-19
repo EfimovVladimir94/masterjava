@@ -22,7 +22,7 @@ public class UserTestData {
         CityTestData.init();
         CityTestData.setUp();
 
-        ADMIN = new User("Admin", "admin@javaops.ru", UserFlag.superuser, SPB.getRef());
+        ADMIN = new User("Admin", "trainingmailefimov@yandex.ru", UserFlag.superuser, SPB.getRef());
         DELETED = new User("Deleted", "deleted@yandex.ru", UserFlag.deleted, SPB.getRef());
         FULL_NAME = new User("Full Name", "gmail@gmail.com", UserFlag.active, KIEV.getRef());
         USER1 = new User("User1", "user1@gmail.com", UserFlag.active, MOSCOW.getRef());
