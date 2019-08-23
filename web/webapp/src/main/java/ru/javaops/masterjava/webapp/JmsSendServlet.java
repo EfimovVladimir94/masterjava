@@ -1,6 +1,7 @@
 package ru.javaops.masterjava.webapp;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 import javax.naming.InitialContext;
@@ -25,7 +26,8 @@ public class JmsSendServlet extends HttpServlet {
         super.init(config);
         try {
             InitialContext initCtx = new InitialContext();
-            ConnectionFactory connectionFactory = (ConnectionFactory) initCtx.lookup("java:comp/env/jms/ConnectionFactory");
+            ActiveMQConnectionFactory connectionFactory = (ActiveMQConnectionFactory) initCtx.lookup("java:comp/env/jms/ConnectionFactory");
+            connectionFactory.setTrustAllPackages(true);
             connection = connectionFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer((Destination) initCtx.lookup("java:comp/env/jms/queue/MailQueue"));

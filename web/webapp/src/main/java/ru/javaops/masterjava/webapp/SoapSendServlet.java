@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import ru.javaops.masterjava.service.mail.GroupResult;
 import ru.javaops.masterjava.service.mail.MailWSClient;
-import ru.javaops.masterjava.service.mail.util.Attachments;
+import ru.javaops.masterjava.service.mail.util.MailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -30,9 +30,9 @@ public class SoapSendServlet extends HttpServlet {
             String subject = req.getParameter("subject");
             String body = req.getParameter("body");
             Part filePart = req.getPart("attach");
-            GroupResult groupResult = MailWSClient.sendBulk(MailWSClient.split(users), subject, body,
+            GroupResult groupResult = MailWSClient.sendBulk(MailUtil.split(users), subject, body,
                     filePart == null ? null :
-                            ImmutableList.of(Attachments.getAttachment(filePart.getSubmittedFileName(), filePart.getInputStream())));
+                            ImmutableList.of(MailUtil.getAttachment(filePart.getSubmittedFileName(), filePart.getInputStream())));
             result = groupResult.toString();
             log.info("Processing finished with result: {}", result);
         } catch (Exception e) {

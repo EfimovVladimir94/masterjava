@@ -1,8 +1,11 @@
 package ru.javaops.masterjava.service.mail;
 
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import one.util.streamex.StreamEx;
 import ru.javaops.masterjava.ExceptionType;
+import ru.javaops.masterjava.service.mail.util.MailUtil;
+import ru.javaops.masterjava.service.mail.util.MailUtil.MailObject;
 import ru.javaops.masterjava.web.WebStateException;
 import ru.javaops.masterjava.web.WsClient;
 
@@ -69,4 +72,18 @@ public class MailServiceExecutor {
             }
         }.call();
     }
+
+    public static void sendAsync(MailObject mailObject) {
+        Set<Addressee> addressees = MailUtil.split(mailObject.getUsers());
+        addressees.forEach(addressee -> mailExecutor.submit(() -> {
+                    try {
+                        MailSender.sendTo(addressee, mailObject.getSubject(), mailObject.getBody(),
+                                ImmutableList.of(MailUtil.getAttachment(mailObject.getAttachName(), mailObject.getAttachData())));
+                    } catch (WebStateException e) {
+                        log.info("failure send email: {}", e);
+                    }
+                })
+        );
+    }
+
 }
